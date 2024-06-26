@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { BASE_URL } from '../../utils/constants'
 
-export interface IListItem {
+export interface ICategoryItem {
     id: number
     name: string
     image: string
@@ -11,7 +11,7 @@ export interface IListItem {
 }
 
 interface IInitialState {
-    list: IListItem[]
+    list: ICategoryItem[]
     isLoading: boolean
 }
 

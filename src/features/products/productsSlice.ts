@@ -8,11 +8,13 @@ import { IProductsItem } from '../../components/Products/Products'
 interface IInitialState {
     list: IProductsItem[]
     isLoading: boolean
+    filtered: IProductsItem[]
 }
 
 const initialState: IInitialState = {
     list: [],
     isLoading: false,
+    filtered: []
     
 }
 
@@ -30,6 +32,9 @@ const productsSlice = createSlice({
     name: 'products',
     initialState,
     reducers: {
+        filterByPrice: (state, {payload}) => {
+            state.filtered = state.list.filter(product => product.price < payload)
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -47,5 +52,5 @@ const productsSlice = createSlice({
             })
     }
 })
-
+export const {filterByPrice} = productsSlice.actions
 export default productsSlice.reducer

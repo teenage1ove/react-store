@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import styles from "../../styles/Products.module.css"
 import { Link } from 'react-router-dom'
-import { IListItem } from '../../features/categories/categoriesSlice'
+import { ICategoryItem } from '../../features/categories/categoriesSlice'
 
-export interface IProductsItem extends IListItem {
+export interface IProductsItem extends ICategoryItem {
     title: string
     price: number
     images: string[]
@@ -22,7 +22,6 @@ interface IProps {
 const Products:FC<IProps> = ({title,style, amount, products = []}) => {
 
     const list = products.filter((_,i) => i < amount)
-    console.log(list)
     return (
     <section className={styles.products} style={style}>
         {title && <h2>{title}</h2>}

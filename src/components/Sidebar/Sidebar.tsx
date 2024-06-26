@@ -8,7 +8,6 @@ import { useAppSelector } from '../../hooks/useAppSelector'
 const Sidebar:FC = () => {
 
   const {list} = useAppSelector(state => state.categories)
-  console.log(list)
   return (
     <section className={styles.sidebar}>
       <div className={styles.title}>Categories</div>
