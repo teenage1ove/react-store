@@ -1,15 +1,14 @@
 import { FC } from 'react'
 import styles from "../../styles/Products.module.css"
 import { Link } from 'react-router-dom'
-import { ICategoryItem } from '../../features/categories/categoriesSlice'
 import { shuffle } from '../../utils/common'
 
-export interface IProductsItem extends ICategoryItem {
+export interface IProductsItem  {
     title: string
     price: number
-    images: string[]
+    image: string
     id: number
-    category: {name: string, id: number, image: string, creationAt: string, updatedAt: string}
+    category: string
 
 } 
 
@@ -22,15 +21,15 @@ interface IProps {
 
 const Products:FC<IProps> = ({title,style, amount, products = []}) => {
 
-    const list = shuffle(products.filter((_,i) => i < amount))
+    const list:IProductsItem[] = shuffle(products.filter((_,i) => i < amount))
     return (
     <section className={styles.products} style={style}>
         {title && <h2>{title}</h2>}
 
         <div className={styles.list}>
-            {list.map(({id, images, title, category: {name: cat}, price}) => (
+            {list.map(({id, image, title, category: cat, price}) => (
                 <Link to={`/products/${id}`} className={styles.product} key={id}>
-                    <div className={styles.image} style={{backgroundImage: `url(${images[0]})`}}/>
+                    <div className={styles.image} style={{backgroundImage: `url(${image})`}}/>
 
                     <div className={styles.wrapper}>
                         <h3 className={styles.title}>{title}</h3>

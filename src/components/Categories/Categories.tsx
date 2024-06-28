@@ -2,10 +2,10 @@ import { FC } from 'react'
 
 import styles from '../../styles/Categories.module.css'
 import { Link } from 'react-router-dom'
-import { ICategoryItem } from '../../features/categories/categoriesSlice'
+import { categoryImage } from '../../utils/category'
 interface IProps {
   title: string
-  products: ICategoryItem[]
+  products: string[]
   amount: number
 }
 
@@ -16,10 +16,10 @@ const Categories: FC<IProps> = ({title, products, amount}) => {
     <section className={styles.section}>
       <h2>{title}</h2>
       <div className={styles.list}>
-        {list.map(({id, name, image}) => (
-          <Link to={`/categories/${id}`} key={id} className={styles.item}>
-            <div className={styles.image} style={{backgroundImage: `url(${image})`}}/>
-            <h3 className={styles.title}>{name}</h3>
+        {list.map(category => (
+          <Link to={`/category/${category}`} key={Math.floor(Math.random() * 100)} className={styles.item}>
+            <div className={styles.image} style={{backgroundImage: `url(${categoryImage(category)})`}}/>
+            <h3 className={styles.title}>{category.toUpperCase()}</h3>
           </Link>
         ))}
       </div>

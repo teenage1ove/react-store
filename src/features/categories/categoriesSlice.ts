@@ -2,16 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { BASE_URL } from '../../utils/constants'
 
-export interface ICategoryItem {
-    id: number
-    name: string
-    image: string
-    creationAt: string
-    updatedAt: string
-}
+
 
 interface IInitialState {
-    list: ICategoryItem[]
+    list: string[]
     isLoading: boolean
 }
 
@@ -22,7 +16,7 @@ const initialState: IInitialState = {
 
 export const getCategories = createAsyncThunk('categories', async (_, thunkAPI) => {
     try {
-        const res = await axios(`${BASE_URL}/categories`)
+        const res = await axios(`${BASE_URL}/products/categories`)
         return res.data
     } catch (error) {
         console.log(error)

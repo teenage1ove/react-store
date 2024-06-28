@@ -13,8 +13,12 @@ export interface IResponseCategories {
     price?: number;
     description?: string;
     category?: Category;
-    images?: string[];
+    image?: string;
     quantity?: number;
+    rating: {
+      rate: number;
+      count: number;
+    };
   }
   
   export interface Category {

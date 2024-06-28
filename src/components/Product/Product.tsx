@@ -1,33 +1,24 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { IProductItem } from '../../features/types'
 import { Link } from 'react-router-dom'
 import { ROUTES } from '../../utils/routes'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
-import styles from '../../styles/Product.module.css'
 import { addItemToCart } from '../../features/user/userSlice'
+import styles from '../../styles/Product.module.css'
+import { ratingColor } from '../../utils/rating'
 
 const SIZES = [4,4.5,5]
 
 const Product:FC<IProductItem> = (item) => {
-    const {images, title, price, description} = item
+    let {image, title, price, description, rating} = item
 
-    const [curImg, setCurImg] = useState<string>()
+    // const [curImg, setCurImg] = useState<string>()
     const [curSize, setCurSize] = useState<number>()
 
     const dispatch = useAppDispatch()
 
-    useEffect(() => {
-        if (!images?.length) return
-
-        setCurImg(images![0])
-    }, [images])
-
     function addToCart() {
         dispatch(addItemToCart(item))
-    }
-
-    function handleClickImage(image: string) {
-        setCurImg(image)
     }
 
     function handleClickSize(size: number) {
@@ -37,18 +28,15 @@ const Product:FC<IProductItem> = (item) => {
   return (
     <section className={styles.product}>
       <div className={styles.images}>
-        <div className={styles.current} style={{backgroundImage: `url(${curImg})`}}> 
-        </div>
-        <div className={styles['images-list']}>
-            {images && images!.map((image, i) => (
-                <div key={i} className={styles.image} style={{backgroundImage: `url(${image})`}} onClick={() => handleClickImage(image)} /> 
-            ))}
+        <div className={styles.current} style={{backgroundImage: `url(${image})`}}> 
         </div>
       </div>
 
       <div className={styles.info}>
         <h3 className={styles.title}>{title}</h3>
         <div className={styles.price}>{price}$</div>
+        <div>Rate: <span className={styles.rating} style={ratingColor(rating.rate)}>{rating.rate}</span></div>
+        <div>Count: <span className={styles.count}>{rating.count}</span></div>
         <div className={styles.sizes}>
             <span>Sizes:</span>
             <div className={styles.list}>

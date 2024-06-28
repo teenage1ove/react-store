@@ -55,6 +55,21 @@
   margin: 10px 0 20px 0;
 }
 
+.count {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 17px;
+  color: var(--grey);
+}
+
+.rating {
+  color: var(--grey);
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 24px;
+  margin: 10px 0 20px 0;
+}
+
 .color,
 .sizes {
   font-size: 14px;

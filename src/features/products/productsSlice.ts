@@ -38,8 +38,8 @@ const productsSlice = createSlice({
         filterByPrice: (state, {payload}: PayloadAction<number>) => {
             state.filtered = state.list.filter(product => product.price < payload)
         },
-        getRelatedProducts: (state, {payload}: PayloadAction<number>) => {
-            const list = state.list.filter(product => product.category.id === payload)
+        getRelatedProducts: (state, {payload}: PayloadAction<string>) => {
+            const list = state.list.filter(product => product.category.includes(payload))
             state.related = shuffle(list)
         }
     },

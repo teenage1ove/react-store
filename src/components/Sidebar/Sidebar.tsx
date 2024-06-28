@@ -7,18 +7,18 @@ import { useAppSelector } from '../../hooks/useAppSelector'
 
 const Sidebar:FC = () => {
 
-  const {list} = useAppSelector(state => state.categories)
+  const list = useAppSelector(state => state.categories.list)
   return (
     <section className={styles.sidebar}>
       <div className={styles.title}>Categories</div>
       <nav>
         <ul className={styles.menu}>
-          {list.map(({id, name}) => (
-            <li key={id}>
+          {list.map(category => (
+            <li key={Math.floor(Math.random() * 100)}>
               <NavLink
               className={({isActive}) => `${styles.link} ${isActive ? styles.active : ''}`}
-              to={`/categories/${id}`}>
-                {name}
+              to={`/category/${category}`}>
+                {category}
               </NavLink>
             </li>
           ))}
