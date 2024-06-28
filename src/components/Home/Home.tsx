@@ -21,7 +21,7 @@ const Home:FC = () => {
   return (
     <>
       <Poster />
-      <Products products={products.list} amount={5} title='Trending'/>
+      <Products products={products.list} amount={10} title='Trending'/>
       <Categories products={categories.list} amount={4} title='Worth seeing'/>
       <Banner />
       <Products products={products.filtered} amount={5} title='Less then 100$'/>

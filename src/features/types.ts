@@ -12,7 +12,7 @@ export interface IResponseCategories {
     title?: string;
     price?: number;
     description?: string;
-    category?: Category;
+    category?: string;
     image?: string;
     quantity?: number;
     rating: {
@@ -21,8 +21,4 @@ export interface IResponseCategories {
     };
   }
   
-  export interface Category {
-    id: number;
-    name: string;
-    image: string;
-  }
+ 

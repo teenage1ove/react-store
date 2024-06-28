@@ -9,7 +9,6 @@ export interface IProductsItem  {
     image: string
     id: number
     category: string
-
 } 
 
 interface IProps {
@@ -21,7 +20,7 @@ interface IProps {
 
 const Products:FC<IProps> = ({title,style, amount, products = []}) => {
 
-    const list:IProductsItem[] = shuffle(products.filter((_,i) => i < amount))
+    const list:IProductsItem[] = shuffle(products).filter((_,i) => i < amount)
     return (
     <section className={styles.products} style={style}>
         {title && <h2>{title}</h2>}
@@ -48,8 +47,6 @@ const Products:FC<IProps> = ({title,style, amount, products = []}) => {
                 </Link>
             ))}
         </div>
-
-    
     </section>
   )
 }
