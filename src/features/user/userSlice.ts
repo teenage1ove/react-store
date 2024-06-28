@@ -9,30 +9,36 @@ import { IProductItem } from '../types'
 // }
 
 export interface ICurrentUser {
-    id: number
+    id?: number;
+    email?: string;
+    password?: string;
+    name?: string;
+    role?: string;
+    avatar?: string;
 }
 
+
 interface IInitialState {
-    currentUser: ICurrentUser[],
+    currentUser: ICurrentUser,
     cart: IProductItem[],
     isLoading: boolean
 }
 
 const initialState: IInitialState = {
-    currentUser: [],
+    currentUser: {},
     cart: [],
     isLoading: false
 }
 
-// export const getCategories = createAsyncThunk('categories', async (_, thunkAPI) => {
-//     try {
-//         const res = await axios(`${BASE_URL}/categories`)
-//         return res.data
-//     } catch (error) {
-//         console.log(error)
-//         return thunkAPI.rejectWithValue(error)
-//     }
-// })
+export const createUser = createAsyncThunk('users/createUser', async (payload, thunkAPI) => {
+    try {
+        const res = await axios.post(`${BASE_URL}/users`, payload)
+        return res.data
+    } catch (error) {
+        console.log(error)
+        return thunkAPI.rejectWithValue(error)
+    }
+})
 
 const userSlice = createSlice({
     name: 'user',
@@ -56,11 +62,10 @@ const userSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        // builder
-        //     .addCase(getCategories.fulfilled, (state, action) => {
-        //         state.list = action.payload
-        //         state.isLoading = false
-        //     }),
+        builder
+            .addCase(createUser.fulfilled, (state, action) => {
+                state.currentUser = action.payload
+            })
         // builder
         //     .addCase(getCategories.pending, (state) => {
         //         state.isLoading = true
@@ -69,7 +74,7 @@ const userSlice = createSlice({
         //     .addCase(getCategories.rejected, (state) => {
         //         state.isLoading = false
         //     })
-    }
+        }
 })
 export const {addItemToCart} = userSlice.actions
 export default userSlice.reducer

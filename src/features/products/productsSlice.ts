@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { BASE_URL } from '../../utils/constants'
 import { IProductsItem } from '../../components/Products/Products'
+import { shuffle } from '../../utils/common'
 
 
 
@@ -9,12 +10,14 @@ interface IInitialState {
     list: IProductsItem[]
     isLoading: boolean
     filtered: IProductsItem[]
+    related: IProductsItem[]
 }
 
 const initialState: IInitialState = {
     list: [],
     isLoading: false,
-    filtered: []
+    filtered: [],
+    related: []
     
 }
 
@@ -32,8 +35,12 @@ const productsSlice = createSlice({
     name: 'products',
     initialState,
     reducers: {
-        filterByPrice: (state, {payload}) => {
+        filterByPrice: (state, {payload}: PayloadAction<number>) => {
             state.filtered = state.list.filter(product => product.price < payload)
+        },
+        getRelatedProducts: (state, {payload}: PayloadAction<number>) => {
+            const list = state.list.filter(product => product.category.id === payload)
+            state.related = shuffle(list)
         }
     },
     extraReducers: (builder) => {
@@ -52,5 +59,5 @@ const productsSlice = createSlice({
             })
     }
 })
-export const {filterByPrice} = productsSlice.actions
+export const {filterByPrice, getRelatedProducts} = productsSlice.actions
 export default productsSlice.reducer

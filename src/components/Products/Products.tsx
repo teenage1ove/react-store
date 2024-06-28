@@ -2,13 +2,14 @@ import { FC } from 'react'
 import styles from "../../styles/Products.module.css"
 import { Link } from 'react-router-dom'
 import { ICategoryItem } from '../../features/categories/categoriesSlice'
+import { shuffle } from '../../utils/common'
 
 export interface IProductsItem extends ICategoryItem {
     title: string
     price: number
     images: string[]
     id: number
-    category: {name: string}
+    category: {name: string, id: number, image: string, creationAt: string, updatedAt: string}
 
 } 
 
@@ -21,7 +22,7 @@ interface IProps {
 
 const Products:FC<IProps> = ({title,style, amount, products = []}) => {
 
-    const list = products.filter((_,i) => i < amount)
+    const list = shuffle(products.filter((_,i) => i < amount))
     return (
     <section className={styles.products} style={style}>
         {title && <h2>{title}</h2>}

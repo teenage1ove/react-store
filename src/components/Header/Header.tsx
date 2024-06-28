@@ -6,8 +6,10 @@ import logo from '../../images/logo.svg'
 import avatar from '../../images/avatar.jpg'
 import { FaHeart, FaSearch } from 'react-icons/fa'
 import { FaCartShopping } from 'react-icons/fa6'
+import { useAppSelector } from '../../hooks/useAppSelector'
 
 const Header: FC = () => {
+    const cart = useAppSelector(state => state.user.cart)
     return (
         <div className={styles.header}>
             <div className={styles.logo}>
@@ -48,7 +50,7 @@ const Header: FC = () => {
 
                     <Link to={ROUTES.cart} className={styles.cart}>
                         <FaCartShopping />
-                        <span className={styles.count}>0</span>
+                        <span className={styles.count}>{cart.length}</span>
                     </Link>
                 </div>
                 
