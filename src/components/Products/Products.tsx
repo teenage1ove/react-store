@@ -36,7 +36,7 @@ const Products:FC<IProps> = ({title,style, amount, products = []}) => {
                         <div className={styles.info}>
                             <div className={styles.prices}>
                                 <div className={styles.price}>{price}$</div>
-                                <div className={styles.oldPrice}>{Math.floor(price * 0.8)}$</div>
+                                <div className={styles.oldPrice}>{Math.floor(price / 0.8)}$</div>
                             </div>
                             <div className={styles.purchases}>
                                 {Math.floor(Math.random() * 20 + 1)} purchased

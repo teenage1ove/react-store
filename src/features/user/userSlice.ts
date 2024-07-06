@@ -2,37 +2,36 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { BASE_URL } from '../../utils/constants'
 import { PayloadAction } from '@reduxjs/toolkit/react'
-import { IProductItem } from '../types'
+import { ICurrentUser, IProductItem } from '../types'
+import { IUserSignupForm } from '../../components/User/UserSignupForm'
 
 // export interface ICart extends IProductItem{
 //     quantity: number
 // }
 
-export interface ICurrentUser {
-    id?: number;
-    email?: string;
-    password?: string;
-    name?: string;
-    role?: string;
-    avatar?: string;
-}
+
 
 
 interface IInitialState {
-    currentUser: ICurrentUser,
+    currentUser: ICurrentUser | null,
     cart: IProductItem[],
     isLoading: boolean
+    showForm: boolean
+    formType: string
 }
 
 const initialState: IInitialState = {
-    currentUser: {},
+    currentUser: null,
     cart: [],
-    isLoading: false
+    isLoading: false,
+    formType: 'signup',
+    showForm: false
 }
 
-export const createUser = createAsyncThunk('users/createUser', async (payload, thunkAPI) => {
+export const createUser = createAsyncThunk<ICurrentUser, IUserSignupForm>('users/createUser', async (payload, thunkAPI) => {
     try {
         const res = await axios.post(`${BASE_URL}/users`, payload)
+        
         return res.data
     } catch (error) {
         console.log(error)
@@ -59,6 +58,9 @@ const userSlice = createSlice({
             }
 
             state.cart = newCart
+        },
+        toggleForm: (state, action: PayloadAction<boolean>) => {
+            state.showForm = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -76,5 +78,5 @@ const userSlice = createSlice({
         //     })
         }
 })
-export const {addItemToCart} = userSlice.actions
+export const {addItemToCart, toggleForm} = userSlice.actions
 export default userSlice.reducer

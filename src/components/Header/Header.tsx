@@ -7,9 +7,19 @@ import avatar from '../../images/avatar.jpg'
 import { FaHeart, FaSearch } from 'react-icons/fa'
 import { FaCartShopping } from 'react-icons/fa6'
 import { useAppSelector } from '../../hooks/useAppSelector'
+import { useAppDispatch } from '../../hooks/useAppDispatch'
+import { toggleForm } from '../../features/user/userSlice'
 
 const Header: FC = () => {
     const cart = useAppSelector(state => state.user.cart)
+    const currentUser = useAppSelector(state => state.user.currentUser)
+    const dispatch = useAppDispatch()
+    function handleClick() {
+        if (!currentUser) return dispatch(toggleForm(true))
+        
+
+    }
+
     return (
         <div className={styles.header}>
             <div className={styles.logo}>
@@ -19,7 +29,7 @@ const Header: FC = () => {
             </div>
 
             <div className={styles.info}>
-                <div className={styles.user}>
+                <div className={styles.user} onClick={handleClick}>
                     <div
                         className={styles.avatar}
                         style={{
