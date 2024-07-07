@@ -1,17 +1,19 @@
 import { FC } from 'react'
-import styles from '../../styles/Sidebar.module.css'
 import { NavLink } from 'react-router-dom'
 import { useAppSelector } from '../../hooks/useAppSelector'
+import styles from '../../styles/Sidebar.module.css'
 
 
 
 const Sidebar:FC = () => {
-
   const list = useAppSelector(state => state.categories.list)
-  return (
+  const isLoading = useAppSelector(state => state.categories.isLoading)
+  return  (
     <section className={styles.sidebar}>
       <div className={styles.title}>Categories</div>
-      <nav>
+      {isLoading ? <div className={styles.menu}>Loading...</div> : 
+      <>
+        <nav>
         <ul className={styles.menu}>
           {list.map(category => (
             <li key={Math.floor(Math.random() * 100)}>
@@ -33,6 +35,8 @@ const Sidebar:FC = () => {
           Terms & Conditions
         </a>
       </div>
+      </>
+      }
     </section>
   )
 }

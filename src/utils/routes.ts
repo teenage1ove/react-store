@@ -9,5 +9,6 @@ export const ROUTES:IRoutes = {
     home: '/', 
     cart: '/cart',
     category: '/category/:id',
-    product: '/products/:id'
+    product: '/products/:id',
+    
 }

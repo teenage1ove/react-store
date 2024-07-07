@@ -1,19 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { apiSlice } from './api/apiSlice'
 import categoriesSlice from './categories/categoriesSlice'
 import productsSlice from './products/productsSlice'
-import { apiSlice } from './api/apiSlice'
 import userSlice from './user/userSlice'
 // ...
 
 export const store = configureStore({
-  reducer: {
-    categories: categoriesSlice,
-    products: productsSlice,
-    user: userSlice,
-    [apiSlice.reducerPath]: apiSlice.reducer
-  },
-  middleware: (getMiddleWare) => getMiddleWare().concat(apiSlice.middleware),
-  devTools: true,
+	reducer: {
+		categories: categoriesSlice,
+		products: productsSlice,
+		user: userSlice,
+		[apiSlice.reducerPath]: apiSlice.reducer,
+	},
+	middleware: getMiddleWare => getMiddleWare().concat(apiSlice.middleware),
+	devTools: true,
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

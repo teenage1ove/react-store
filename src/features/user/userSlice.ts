@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
-import { BASE_URL } from '../../utils/constants'
+import axios, { AxiosResponse } from 'axios'
+import { SERVER_URL } from '../../utils/constants'
 import { PayloadAction } from '@reduxjs/toolkit/react'
 import { ICurrentUser, IProductItem } from '../types'
 import { IUserSignupForm } from '../../components/User/UserSignupForm'
@@ -10,33 +10,40 @@ import { IUserSignupForm } from '../../components/User/UserSignupForm'
 // }
 
 
-
-
 interface IInitialState {
     currentUser: ICurrentUser | null,
     cart: IProductItem[],
     isLoading: boolean
     showForm: boolean
     formType: string
+    error?: string | null
 }
+
+interface ICreateUserResponse {
+    message: string;
+   }
 
 const initialState: IInitialState = {
     currentUser: null,
     cart: [],
     isLoading: false,
     formType: 'signup',
-    showForm: false
+    showForm: false,
+    error: null
 }
 
-export const createUser = createAsyncThunk<ICurrentUser, IUserSignupForm>('users/createUser', async (payload, thunkAPI) => {
-    try {
-        const res = await axios.post(`${BASE_URL}/users`, payload)
-        
-        return res.data
-    } catch (error) {
-        console.log(error)
-        return thunkAPI.rejectWithValue(error)
-    }
+export const createUser = createAsyncThunk<ICurrentUser, IUserSignupForm>('users/createUser', async (payload, {rejectWithValue}) => {
+        try {
+            const response = await axios.post(`${SERVER_URL}/user/register`, payload)
+            console.log(response)
+            if (response.status !== 200) {
+                console.log(response.data.error)
+                return response.data.error
+            }
+            return response.data
+        } catch (error) {
+            return rejectWithValue(error)
+        }
 })
 
 const userSlice = createSlice({
@@ -52,7 +59,6 @@ const userSlice = createSlice({
                     return item.id === action.payload.id
                     ? {...item, quantity: action.payload.quantity || item.quantity! + 1} : item;
                 })
-
             } else {
                 newCart.push({...action.payload, quantity: 1})
             }
@@ -65,16 +71,17 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(createUser.fulfilled, (state, action) => {
+            .addCase(createUser.fulfilled, (state, action: PayloadAction<ICurrentUser>) => {
+                state.error = null
                 state.currentUser = action.payload
+            })
+            builder
+            .addCase(createUser.rejected, (state, action: PayloadAction<any>) => {
+                state.error = action.payload.response.data.message
             })
         // builder
         //     .addCase(getCategories.pending, (state) => {
         //         state.isLoading = true
-        //     })
-        // builder
-        //     .addCase(getCategories.rejected, (state) => {
-        //         state.isLoading = false
         //     })
         }
 })

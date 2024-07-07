@@ -6,6 +6,7 @@ import Categories from '../Categories/Categories'
 import Banner from '../Banner/Banner'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { filterByPrice } from '../../features/products/productsSlice'
+import { shuffle } from '../../utils/common'
 
 const Home:FC = () => {
   const dispatch = useAppDispatch()
@@ -21,10 +22,10 @@ const Home:FC = () => {
   return (
     <>
       <Poster />
-      <Products products={products.list} amount={10} title='Trending'/>
-      <Categories products={categories.list} amount={4} title='Worth seeing'/>
+      <Products products={shuffle(products.list)} isLoading={products.isLoading} amount={10} title='Trending'/>
+      <Categories products={categories.list} isLoading={categories.isLoading} amount={4} title='Worth seeing'/>
       <Banner />
-      <Products products={products.filtered} amount={5} title='Less then 100$'/>
+      <Products products={shuffle(products.filtered)} isLoading={products.isLoading} amount={5} title='Less then 100$'/>
     </>
   )
 }
