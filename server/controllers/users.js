@@ -55,13 +55,13 @@ const register = async (req, res, next) => {
     }
   
     const salt = await brypt.genSalt(10);
-    const hashedPassord = await brypt.hash(password, salt);
+    const hashedPassword = await brypt.hash(password, salt);
   
     const user = await prisma.user.create({
       data: {
         email,
         name,
-        password: hashedPassord
+        password: hashedPassword
       }
     });
   
