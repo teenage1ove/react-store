@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { toggleForm } from '../../features/user/userSlice'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { useAppSelector } from '../../hooks/useAppSelector'
-import avatar from '../../images/avatar.jpg'
+import avatar from '../../images/avatar_user.png'
 import logo from '../../images/logo.svg'
 import styles from '../../styles/Header.module.css'
 import { ROUTES } from '../../utils/routes'
@@ -34,7 +34,7 @@ const Header: FC = () => {
 							backgroundImage: `url(${avatar})`,
 						}}
 					/>
-					<div className={styles.username}>Guest</div>
+					<div className={styles.username}>{currentUser ? currentUser?.name : 'Guest'}</div>
 				</div>
 
 				<form className={styles.form}>

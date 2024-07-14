@@ -1,14 +1,13 @@
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { IoClose } from 'react-icons/io5'
-import { createUser } from '../../features/user/userSlice'
+import { loginUser } from '../../features/user/userSlice'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { useAppSelector } from '../../hooks/useAppSelector'
 import styles from '../../styles/User.module.css'
 
-export interface IUserSignupForm {
+export interface IUserLoginForm {
 	email: string
-	name: string
 	password: string
 }
 
@@ -17,11 +16,12 @@ interface IProps {
 	closeForm: () => {}
 }
 
-const UserSignupForm: FC<IProps> = ({ closeForm, toggleCurrentFormType }) => {
+
+const UserLoginForm: FC<IProps> = ({ closeForm, toggleCurrentFormType }) => {
 	const dispatch = useAppDispatch()
 	const errorOnSubmit = useAppSelector(state => state.user.error)
 	const { register, handleSubmit, formState, getValues } =
-		useForm<IUserSignupForm>({
+		useForm<IUserLoginForm>({
 			mode: 'onChange',
 		})
 
@@ -29,11 +29,11 @@ const UserSignupForm: FC<IProps> = ({ closeForm, toggleCurrentFormType }) => {
 
 	function submit() {
 		let values = getValues()
-		dispatch(createUser(values)).then((data) => {
-			if (data.meta.requestStatus === 'fulfilled') {
-				closeForm()
-			}
-	})
+			dispatch(loginUser(values)).then((data) => {
+				if (data.meta.requestStatus === 'fulfilled') {
+					closeForm()
+				}
+		})
 	}
 
 	return (
@@ -42,9 +42,11 @@ const UserSignupForm: FC<IProps> = ({ closeForm, toggleCurrentFormType }) => {
 				<IoClose />
 			</div>
 
-			<div className={styles.title}>Sign Up</div>
+			<div className={styles.title}>Sign In</div>
 
-			<form className={styles.form} onSubmit={handleSubmit(submit)}>
+			<form className={styles.form} onSubmit={
+					handleSubmit(submit)
+				}>
 				<div className={styles.group}>
 					<input
 						type='email'
@@ -66,22 +68,6 @@ const UserSignupForm: FC<IProps> = ({ closeForm, toggleCurrentFormType }) => {
 
 				<div className={styles.group}>
 					<input
-						type='text'
-						placeholder='Name'
-						autoComplete='off'
-						{...register('name', {
-							required: 'This field is required',
-							maxLength: 15,
-						})}
-					/>
-				</div>
-
-				{errors.name && (
-					<div className={styles.error}>{errors.name.message}</div>
-				)}
-
-				<div className={styles.group}>
-					<input
 						type='password'
 						placeholder='Password'
 						autoComplete='off'
@@ -94,10 +80,10 @@ const UserSignupForm: FC<IProps> = ({ closeForm, toggleCurrentFormType }) => {
 				{errors.password && (
 					<div className={styles.error}>{errors.password.message}</div>
 				)}
-				<div className={styles.link} onClick={() => toggleCurrentFormType('login')}>I already have an account.</div>
+				<div className={styles.link}  onClick={() => toggleCurrentFormType('signup')}>Create an account</div>
 
 				<button type='submit' className={styles.submit}>
-					Create an account
+					Login
 				</button>
 
 				{errorOnSubmit ? <div className={styles.error}>{errorOnSubmit}</div> : <></>}
@@ -106,4 +92,4 @@ const UserSignupForm: FC<IProps> = ({ closeForm, toggleCurrentFormType }) => {
 	)
 }
 
-export default UserSignupForm
+export default UserLoginForm

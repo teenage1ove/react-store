@@ -24,7 +24,13 @@ export interface IResponseCategories {
   export interface ICurrentUser {
     id?: number;
     email?: string;
-    username?: string;
+    name?: string;
     password?: string;
   }
   
+  export interface IResponseLogin {
+    id?: number;
+    email?: string;
+    name?: string;
+    token?: string;
+  }

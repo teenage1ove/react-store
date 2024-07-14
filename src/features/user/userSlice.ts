@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import { SERVER_URL } from '../../utils/constants'
 import { PayloadAction } from '@reduxjs/toolkit/react'
-import { ICurrentUser, IProductItem } from '../types'
+import { ICurrentUser, IProductItem, IResponseLogin } from '../types'
 import { IUserSignupForm } from '../../components/User/UserSignupForm'
+import { IUserLoginForm } from '../../components/User/UserLoginForm'
 
 // export interface ICart extends IProductItem{
 //     quantity: number
@@ -19,9 +20,6 @@ interface IInitialState {
     error?: string | null
 }
 
-interface ICreateUserResponse {
-    message: string;
-   }
 
 const initialState: IInitialState = {
     currentUser: null,
@@ -35,6 +33,20 @@ const initialState: IInitialState = {
 export const createUser = createAsyncThunk<ICurrentUser, IUserSignupForm>('users/createUser', async (payload, {rejectWithValue}) => {
         try {
             const response = await axios.post(`${SERVER_URL}/user/register`, payload)
+            console.log(response)
+            if (response.status !== 200) {
+                console.log(response.data.error)
+                return response.data.error
+            }
+            return response.data
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+})
+
+export const loginUser = createAsyncThunk<IResponseLogin, IUserLoginForm>('users/loginUser', async (payload, {rejectWithValue}) => {
+        try {
+            const response = await axios.post(`${SERVER_URL}/user/login`, payload)
             console.log(response)
             if (response.status !== 200) {
                 console.log(response.data.error)
@@ -67,6 +79,9 @@ const userSlice = createSlice({
         },
         toggleForm: (state, action: PayloadAction<boolean>) => {
             state.showForm = action.payload
+        },
+        toggleFormType: (state, action: PayloadAction<string>) => {
+            state.formType = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -79,11 +94,18 @@ const userSlice = createSlice({
             .addCase(createUser.rejected, (state, action: PayloadAction<any>) => {
                 state.error = action.payload.response.data.message
             })
+            .addCase(loginUser.fulfilled, (state, action: PayloadAction<ICurrentUser>) => {
+                state.error = null
+                state.currentUser = action.payload
+            })
+            .addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
+                state.error = action.payload.response.data.message
+            })
         // builder
         //     .addCase(getCategories.pending, (state) => {
         //         state.isLoading = true
         //     })
         }
 })
-export const {addItemToCart, toggleForm} = userSlice.actions
+export const {addItemToCart, toggleForm, toggleFormType} = userSlice.actions
 export default userSlice.reducer
