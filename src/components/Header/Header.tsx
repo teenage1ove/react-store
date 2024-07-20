@@ -68,7 +68,7 @@ const Header: FC = () => {
 							<Link key={item.id} onClick={() => setSearchValue('')} to={`/products/${item.id}`} className={styles.item}>
 								<div className={styles.image} style={{backgroundImage: `url(${item.image})`}}>
 								</div>
-								<div className={styles.title}>{item.title}</div>
+								<div>{item.title}</div>
 							</Link >
 						))}
 					</div>}
