@@ -1,6 +1,15 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { apiSlice } from './api/apiSlice'
-import { persistStore, persistReducer } from 'redux-persist'
+import { 
+	persistStore,
+	persistReducer,
+	FLUSH,
+	REHYDRATE,
+	PAUSE,
+	PERSIST,
+	PURGE,
+	REGISTER 
+} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import categoriesSlice from './categories/categoriesSlice'
 import productsSlice from './products/productsSlice'
@@ -23,8 +32,13 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
 	reducer: persistedReducer,
-	middleware: getMiddleWare => getMiddleWare().concat(apiSlice.middleware),
+	middleware: getMiddleWare => 
+		getMiddleWare({
+			serializableCheck: {
+			  ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+			}}).concat(apiSlice.middleware),
 	devTools: true,
+	
 })
 
 export const persister = persistStore(store)
