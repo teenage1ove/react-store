@@ -25,7 +25,7 @@ export interface IResponseCategories {
     id?: number;
     email?: string;
     name?: string;
-    password?: string;
+    token?: string;
   }
   
   export interface IResponseLogin {

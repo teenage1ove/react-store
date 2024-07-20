@@ -1,21 +1,23 @@
 import { FC } from 'react'
 import { FaHeart, FaSearch } from 'react-icons/fa'
 import { FaCartShopping } from 'react-icons/fa6'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toggleForm } from '../../features/user/userSlice'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { useAppSelector } from '../../hooks/useAppSelector'
+import { ROUTES } from '../../utils/routes'
 import avatar from '../../images/avatar_user.png'
 import logo from '../../images/logo.svg'
 import styles from '../../styles/Header.module.css'
-import { ROUTES } from '../../utils/routes'
 
 const Header: FC = () => {
+	const navigate = useNavigate()
 	const cart = useAppSelector(state => state.user.cart)
 	const currentUser = useAppSelector(state => state.user.currentUser)
 	const dispatch = useAppDispatch()
 	function handleClick() {
 		if (!currentUser) return dispatch(toggleForm(true))
+		navigate(ROUTES.profile)
 	}
 
 	return (

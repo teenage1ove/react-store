@@ -3,6 +3,7 @@ interface IRoutes {
     cart: string
     category: string
     product: string
+    profile: string
 }
 
 export const ROUTES:IRoutes = {
@@ -10,5 +11,6 @@ export const ROUTES:IRoutes = {
     cart: '/cart',
     category: '/category/:id',
     product: '/products/:id',
+    profile: '/profile'
     
 }

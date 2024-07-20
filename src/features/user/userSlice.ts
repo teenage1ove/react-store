@@ -58,6 +58,21 @@ export const loginUser = createAsyncThunk<IResponseLogin, IUserLoginForm>('users
         }
 })
 
+
+export const updateUser = createAsyncThunk<IResponseLogin, IUserLoginForm>('users/updateUser', async (payload, {rejectWithValue}) => {
+    try {
+        const response = await axios.post(`${SERVER_URL}/user/update`, payload)
+        console.log(response)
+        if (response.status !== 200) {
+            console.log(response.data.error)
+            return response.data.error
+        }
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -94,6 +109,7 @@ const userSlice = createSlice({
             .addCase(createUser.rejected, (state, action: PayloadAction<any>) => {
                 state.error = action.payload.response.data.message
             })
+
             .addCase(loginUser.fulfilled, (state, action: PayloadAction<ICurrentUser>) => {
                 state.error = null
                 state.currentUser = action.payload
@@ -101,10 +117,14 @@ const userSlice = createSlice({
             .addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
                 state.error = action.payload.response.data.message
             })
-        // builder
-        //     .addCase(getCategories.pending, (state) => {
-        //         state.isLoading = true
-        //     })
+
+            .addCase(updateUser.fulfilled, (state, action: PayloadAction<ICurrentUser>) => {
+                state.error = null
+                state.currentUser = action.payload
+            })
+            .addCase(updateUser.rejected, (state, action: PayloadAction<any>) => {
+                state.error = action.payload.response.data.message
+            })
         }
 })
 export const {addItemToCart, toggleForm, toggleFormType} = userSlice.actions
