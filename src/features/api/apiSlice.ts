@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { BASE_URL } from '../../utils/constants'
 import { IProductItem } from '../types'
+import { IProductsItem } from '../../components/Products/Products'
 
 
 export const apiSlice = createApi({
@@ -13,7 +14,7 @@ export const apiSlice = createApi({
             providesTags: ['Product']
         }),
 
-        getProducts: builder.query<IProductItem[], any>({
+        getProducts: builder.query<IProductsItem[], any>({
             query: () => `/products/`,
             providesTags: ['Product']
         })

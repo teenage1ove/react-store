@@ -9,7 +9,7 @@ interface IRoutes {
 export const ROUTES:IRoutes = {
     home: '/', 
     cart: '/cart',
-    category: '/category/:id',
+    category: '/category/:category',
     product: '/products/:id',
     profile: '/profile'
     

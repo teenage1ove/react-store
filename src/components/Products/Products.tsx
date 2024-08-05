@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import styles from "../../styles/Products.module.css"
 import { Link } from 'react-router-dom'
-import { shuffle } from '../../utils/common'
 
 export interface IProductsItem  {
     title: string
@@ -19,7 +18,7 @@ interface IProps {
     isLoading?: boolean
 }
 
-const Products:FC<IProps> = ({title,style, amount, products = [], isLoading}) => {
+const Products:FC<IProps> = ({title,style, amount, products, isLoading}) => {
     const list:IProductsItem[] = products.filter((_,i) => i < amount)
     return (
     <section className={styles.products} style={style}>
