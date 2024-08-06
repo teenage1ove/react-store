@@ -92,6 +92,9 @@ const userSlice = createSlice({
 
             state.cart = newCart
         },
+        removeItemFromCart: (state, {payload}:PayloadAction<IProductItem>) => {
+                state.cart = state.cart.filter(item => item.id !== payload.id)
+        },
         toggleForm: (state, action: PayloadAction<boolean>) => {
             state.showForm = action.payload
         },
@@ -127,5 +130,5 @@ const userSlice = createSlice({
             })
         }
 })
-export const {addItemToCart, toggleForm, toggleFormType} = userSlice.actions
+export const {addItemToCart, toggleForm, toggleFormType, removeItemFromCart} = userSlice.actions
 export default userSlice.reducer

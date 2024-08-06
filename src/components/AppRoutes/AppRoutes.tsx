@@ -5,6 +5,7 @@ import SingleProduct from '../SingleProduct/SingleProduct'
 import Profile from '../Profile/Profile'
 import Home from '../Home/Home'
 import SingleCategory from '../SingleCategory/SingleCategory'
+import Cart from '../Cart/Cart'
 
 const AppRoutes:FC = () => {
   return (
@@ -13,6 +14,7 @@ const AppRoutes:FC = () => {
         <Route path={ROUTES.product} element={<SingleProduct />}/>
         <Route path={ROUTES.profile} element={<Profile />}/>
         <Route path={ROUTES.category} element={<SingleCategory />}/>
+        <Route path={ROUTES.cart} element={<Cart />}/>
     </Routes>
   )
 }

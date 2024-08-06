@@ -81,7 +81,7 @@ const Header: FC = () => {
 
 					<Link to={ROUTES.cart} className={styles.cart}>
 						<FaCartShopping />
-						<span className={styles.count}>{cart.length}</span>
+						{cart.length !== 0 && <span className={styles.count}>{cart.length}</span>}
 					</Link>
 				</div>
 			</div>

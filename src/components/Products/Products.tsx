@@ -19,6 +19,7 @@ interface IProps {
 }
 
 const Products:FC<IProps> = ({title,style, amount, products, isLoading}) => {
+    if (!products.length) return
     const list:IProductsItem[] = products.filter((_,i) => i < amount)
     return (
     <section className={styles.products} style={style}>
